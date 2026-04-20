@@ -4,16 +4,22 @@ import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { useAuth } from '@/app/context/auth-context'
 import { Bird, LogOut, User } from 'lucide-react'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 
 export function Navbar() {
   const { isLoggedIn, user, logout } = useAuth()
   const router = useRouter()
   const [showMenu, setShowMenu] = useState(false)
 
+  useEffect(() => {
+    if (!isLoggedIn) {
+      router.push('/login')
+    }
+  }, [isLoggedIn, router])
+
   const handleLogout = () => {
     logout()
-    router.push('/login')
+    router.push('/')
   }
 
   return (
@@ -47,9 +53,9 @@ export function Navbar() {
                     </Link>
                   </>
                 )}
-                <Link href="/informasi" className="text-foreground hover:text-primary transition-colors text-sm">
+                {/* <Link href="/informasi" className="text-foreground hover:text-primary transition-colors text-sm">
                   Informasi
-                </Link>
+                </Link> */}
 
                 {/* User Menu */}
                 <div className="relative">
